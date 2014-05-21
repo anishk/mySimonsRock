@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div style='text-align:center;'>
+            <img id="loginbranding" style='width:290px;height:70px;' src="{{brandingUrl}}" />
+        </div>
+    </div>
+    <div class="container">
+        <form role="form">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                    <input name="loginUsername" id="loginUsername" type="text" class="form-control" placeholder="Username">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-lock"></span></span>
+                    <input name="loginPassword" id="loginPassword" type="password" class="form-control" placeholder="Password">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="login();">Login</button>
+        </form>
+    </div>
+</div>

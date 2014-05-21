@@ -1,0 +1,148 @@
+<div class="navbar-brand" style="color:white;" ng-bind="appDisplayName"></div>
+
+<div class="scrollable sidebar-scrollable">
+  <div class="scrollable-content">
+    <div class="list-group" toggle="off" bubble target="mainSidebar">
+
+        <!--<div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading" toggle target="collapseOne">
+                    <h4 class="panel-title">
+                        Collapsible Group Item #1
+                    </h4>
+                </div>
+                <div id="collapseOne" toggleable active-class="in" exclusion-group="accordion1" default="active" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" toggle target="collapseTwo">
+                    <h4 class="panel-title">
+
+                        Collapsible Group Item #2
+                    </h4>
+                </div>
+                <div id="collapseTwo" toggleable active-class="in" exclusion-group="accordion1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" toggle target="collapseThree">
+                    <h4 class="panel-title">
+                        Collapsible Group Item #3
+                    </h4>
+                </div>
+                <div id="collapseThree" toggleable active-class="in" exclusion-group="accordion1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+      <a class="list-group-item" href="#/home" style="padding-left:20px;font-size:16px;fon-weight:bold;">
+          <i class="fa fa-home fa-2x" style="min-width:40px;text-align:center;"></i>
+          Home
+          <i class="fa fa-chevron-right pull-right"></i>
+      </a>
+      <!--<a class="list-group-item" href="#/scroll">Scroll <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/toggle">Toggle <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/tabs">Tabs <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/accordion">Accordion <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/overlay">Overlay <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/forms">Forms <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/carousel">Carousel <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/carousel">Carousel 1 <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/carousel">Carousel 2 <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/carousel">Carousel 3 <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/carousel">Carousel4 <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/carousel">Carousel 5 <i class="fa fa-chevron-right pull-right"></i></a>
+      <a class="list-group-item" href="#/carousel">Carousel 6 <i class="fa fa-chevron-right pull-right"></i></a>-->
+
+        <div ng-repeat = "ag in appgroups">
+            <div class="list-group-item appgroup" style="background: rgb(96,108,136); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(96,108,136,1) 0%, rgba(63,76,107,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(96,108,136,1)), color-stop(100%,rgba(63,76,107,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* IE10+ */
+background: linear-gradient(135deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+color:white;font-size:17px;font-weight:bold;">
+                {{ag.appFeatureType}}
+            </div>
+            <a  class="list-group-item" href="#/app/{{app.name}}/{{app.name}}" ng-repeat="app in ag.apps" style="padding-left:20px;font-size:16px;fon-weight:bold;">
+                <img class="avatar" style="width:2em;height:2em;" id="logo-{{app.name}}" src="{{app.logo}}"  alt="...">
+                {{app.displayname}}
+                <i class="fa fa-chevron-right pull-right"></i>
+                <!--<p>{{app.appFeatureType}}</p>-->
+            </a>
+        </div>
+
+        <div class="list-group-item appgroup" style="background: rgb(96,108,136); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(96,108,136,1) 0%, rgba(63,76,107,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(96,108,136,1)), color-stop(100%,rgba(63,76,107,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* IE10+ */
+background: linear-gradient(135deg,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+color:white;font-size:17px;font-weight:bold;" >
+            Settings
+        </div>
+        <a class="list-group-item" href="#/help" style="padding-left:20px;font-size:16px;fon-weight:bold;">
+            <i class="fa fa-question-circle fa-2x" style="min-width:40px;text-align:center;"></i>
+            Help
+            <i class="fa fa-chevron-right pull-right"></i>
+        </a>
+        <a class="list-group-item" href="#/about" style="padding-left:20px;font-size:16px;fon-weight:bold;">
+            <i class="fa fa-sun-o fa-2x" style="min-width:40px;text-align:center;"></i>
+            About
+            <i class="fa fa-chevron-right pull-right"></i>
+        </a>
+        <a class="list-group-item" href="#/device" style="padding-left:20px;font-size:16px;fon-weight:bold;">
+            <i class="fa fa-mobile-phone fa-2x" style="min-width:40px;text-align:center;"></i>
+            Device Info
+            <i class="fa fa-chevron-right pull-right"></i>
+        </a>
+        <a class="list-group-item" href="#/sendfeedback" style="padding-left:20px;font-size:16px;fon-weight:bold;">
+            <i class="fa fa-envelope fa-2x" style="min-width:40px;text-align:center;"></i>
+            Send feedback
+            <i class="fa fa-chevron-right pull-right"></i>
+        </a>
+        <a class="list-group-item" href="#/reportissue" style="padding-left:20px;font-size:16px;fon-weight:bold;">
+            <i class="fa fa-envelope fa-2x" style="min-width:40px;text-align:center;"></i>
+            Report Issue
+            <i class="fa fa-chevron-right pull-right"></i>
+        </a>
+
+
+
+
+        <!--
+                <a class="list-group-item" href="#/app/{{app.name}}/{{app.name}}" ng-repeat="app in apps">
+                    <img class="avatar" style="width:2em;height:2em;" id="logo-{{app.name}}" src="{{app.logo}}"  alt="...">
+                    {{app.displayname}}
+                    <i class="fa fa-chevron-right pull-right"></i>
+                    <p>{{app.appFeatureType}}</p>
+                </a>
+        -->
+        <!--<ul class="media-list list-group">'+
+            '<li class="media list-group-item" ng-repeat="app in apps">'+
+                '<a href="#app/{{app.name}}/{{app.name}}" class="pull-left">'+
+                    '<img class="media-object thumbnail"  style="width:5em;height:5em;" id="logo-{{app.name}}" src="{{app.logo}}"  alt="...">'+
+                    '</a>'+
+                '<div class="media-body">'+
+                    '<h4 class="media-heading">{{app.displayname}}</h4>'+
+                    '<p>{{app.description}}</p>'+
+                    '</div>'+
+                '</li>'+
+            '</ul>';-->
+    </div>
+
+  </div>
+</div>
