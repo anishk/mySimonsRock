@@ -6,7 +6,7 @@
         id        = "com.phonegap.helloworld"
         version   = "1.0.0">
 
-    <name>HelloWorld</name>
+    <name>mySiminsRock</name>
 
     <description>
         Hello World sample application that responds to the deviceready event.
@@ -97,7 +97,6 @@
     <gap:plugin name="org.apache.cordova.network-information"/>
     <gap:plugin name="org.apache.cordova.splashscreen"/>
     <gap:plugin name="org.apache.cordova.vibration"/>
-    <gap:plugin name="de.appplant.cordova.plugin.email-composer"/>
     
 
 </widget>
