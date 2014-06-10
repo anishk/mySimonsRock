@@ -47,7 +47,7 @@ angular.module('myApp', [
 var MyCampusApp = {
     config : {
         tenant : "BCSR",
-        serverUrl : "https://ccmsqa.campuseai.org",
+        serverUrl : "https://kryptosqa.kryptosmobile.com",
         tenantFolder : function(device, tenant) {
             if(device.platform == 'Android') {
                 return "file://MyCampusMobile-" + tenant + "/";
