@@ -24,6 +24,7 @@ angular.module('myApp', [
         $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
         $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
         $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: 'HomeCtrl'});
+        $routeProvider.when('/amakerhome', {templateUrl: 'partials/amakerhome.html', controller: 'AMakerHomeCtrl'});
         $routeProvider.when('/settings', {templateUrl: 'partials/settings.html', controller: 'SettingsCtrl'});
         $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'LoginCtrl'});
         $routeProvider.when('/device', {templateUrl: 'partials/device.html', controller: 'DeviceCtrl'});
@@ -33,7 +34,8 @@ angular.module('myApp', [
         $routeProvider.when('/sendfeedback', {templateUrl: 'partials/feedback.html', controller: 'SendFeedbackCtrl'});
         $routeProvider.when('/reportissue', {templateUrl: 'partials/reportissue.html', controller: 'ReportIssueCtrl'});
         $routeProvider.when('/app/:appid/:pageid', {templateUrl: 'partials/app.html', controller: 'AppCtrl'});
-        $routeProvider.otherwise({redirectTo: '/home'});
+        $routeProvider.when('/launch/:tenant', {templateUrl: 'partials/partial1.html', controller: 'LaunchCtrl'});
+        $routeProvider.otherwise({redirectTo: '/amakerhome'});
         $httpProvider.defaults.timeout = 5000;
     }])
     .service('analytics', [
@@ -46,8 +48,8 @@ angular.module('myApp', [
 
 var MyCampusApp = {
     config : {
-        tenant : "BCSR",
-        serverUrl : "https://kryptosqa.kryptosmobile.com",
+        tenant : "CEAI",
+        serverUrl : "",
         tenantFolder : function(device, tenant) {
             if(device.platform == 'Android') {
                 return "file://MyCampusMobile-" + tenant + "/";
@@ -60,6 +62,7 @@ var MyCampusApp = {
     initMode: false,
     modalDialogDisplayed: false,
     homeScreenDisplayed : true,
+    rootScope : null,
     //debugMode: window.tinyHippos != undefined,
 
     init : function(){
@@ -100,10 +103,13 @@ var MyCampusApp = {
     },
     fillRootScopeForHome : function($rootScope, $sce, tenant, $window, $location, $route, $http) {
         MyCampusApp.homeScreenDisplayed=true;
+        MyCampusApp.rootScope = $rootScope;
+        $.KNMonitor.initialize($rootScope);
         var storedMetadata =  $.jStorage.get( tenant + '-metadata'); //window.localStorage.getItem('metadata');
         //If Metadata doesn't exist in the local storage. Then this app is launched for the first time.
         //Lets pull the default metadata file.
         if(!storedMetadata) {
+			//alert ("No Stored metadata");
             $http.get("default-metadata.json").success(function(data){
                 var tenantid = data.tenantid
                 $.jStorage.set(tenantid + '-metadata', data);
@@ -302,18 +308,23 @@ var MyCampusApp = {
     },
 
     onlineHandler: function(){
-//        try {
-//            //alert("Online Called");
-//            var rootScope = angular.element('#htmlRoot').scope();
-//            alert("root scope : " + rootScope);
-//            rootScope.updateCheck();
-//        }catch(e) {
-//            alert("Exception in Online handler : " + e);
-//        }
+        try {
+            //alert("Online Called");
+            var rootScope = MyCampusApp.rootScope;
+            rootScope.$broadcast("onOnline", "Device is Online");
+        }catch(e) {
+            //alert("Exception in Online handler : " + e);
+        }
     },
 
     offlineHandler: function(){
-        //alert("Offline Handler");
+        try {
+            //alert("Online Called");
+            var rootScope = MyCampusApp.rootScope;
+            rootScope.$broadcast("onOffline", "Device is Offline");
+        }catch(e) {
+            //alert("Exception in Online handler : " + e);
+        }
     },
 
     updateAppLogos : function(tenant) {
@@ -340,7 +351,7 @@ var MyCampusApp = {
         //fileSystem.root.getDirectory("Android/data/org.campuseai." + tenant + ".appLogos",{create:true},gotDir,onError);
     },
 
-    checkAndUpdateMetadata : function(tenant, url, $http, currentVersion,  $route, $rootScope, $scope, $sce, logosDirPath) {
+    checkAndUpdateMetadata : function(tenant, url, $http, currentVersion,  $route, $rootScope, $scope, $sce, logosDirPath, silent) {
         $http.post(url + "/metagate/updatecheck/" + tenant + "?callback=JSON_CALLBACK", {device: window.device}).
             success(function(data) {
                 if(data.version != currentVersion) {
@@ -349,21 +360,25 @@ var MyCampusApp = {
                             MyCampusApp.updateMetadata(tenant, url, $http, data, $route, $rootScope, $scope, $sce, logosDirPath);
                         }
                     };
-                    if(window.device) {
-                        navigator.notification.confirm(
-                            'App Updates available. Update ?', // message
-                            onConfirm,            // callback to invoke with index of button pressed
-                            'Update Manager',           // title
-                            ['Yes','No']         // buttonLabels
-                        );
-                    }else {
-                        apprise("App Updates available. Update ? ", {'verify':true, 'textYes':"Yes", 'textNo':"No"}, function(r) {
-                            if(r) {
-                                //navigator.app.exitApp();
-                                MyCampusApp.updateMetadata(tenant, url, $http, data, $route, $rootScope, $scope, $sce, logosDirPath);
-                            } else MyCampusApp.modalDialogDisplayed = false;
-                        });
-                    }
+                    if(!silent) {
+						if(window.device) {
+							navigator.notification.confirm(
+								'App Updates available. Update ?', // message
+								onConfirm,            // callback to invoke with index of button pressed
+								'Update Manager',           // title
+								['Yes','No']         // buttonLabels
+							);
+						}else {
+							apprise("App Updates available. Update ? ", {'verify':true, 'textYes':"Yes", 'textNo':"No"}, function(r) {
+								if(r) {
+									//navigator.app.exitApp();
+									MyCampusApp.updateMetadata(tenant, url, $http, data, $route, $rootScope, $scope, $sce, logosDirPath);
+								} else MyCampusApp.modalDialogDisplayed = false;
+							});
+						}
+					}else {
+						onConfirm(1);
+					}
                 }
             });
     },
@@ -435,6 +450,7 @@ var MyCampusApp = {
 
         Stage.prototype.screenWidth = docWidth; //$(window).width() + 16;
         allScreens = $('#allScreens');
+        allScreens.html("");
         //allScreens.Touchable();
         if($.isNumeric(data.iconWidth)) {
             stage = new Stage(allIcons, data.iconWidth);
@@ -446,18 +462,38 @@ var MyCampusApp = {
         stage.addIndicatorsTo('#indicators');
         $rootScope.stage=stage;
         dock = $('#dock');
+        dock.html("");
         _results = [];
         for (_i = 0, _len = dockIcons.length; _i < _len; _i++) {
             icon = dockIcons[_i];
             _results.push(dock.append(icon.markup));
         }
+        var homedata = $("#homedata");
+        homedata.html("");
+        var iconwidth = 64;
+        var sampleicon = $('#sampleicon');
+        var calculated = sampleicon.outerWidth(true);
+        if(calculated != 0) {
+            iconwidth = sampleicon.outerWidth(true) + 24;
+        }
+        var width = $(window).width() > 780 ? $(window).width() - 280 : $(window).width();
+        var cols =  Math.floor(width / iconwidth);
+        var rows = Math.floor(($(window).height() - 200) / iconwidth);
+
+        for (_i = 0, _len = allIcons.length; _i < _len; _i++) {
+            icon = allIcons[_i];
+            var markup = '<li><a href="' + icon.url + '"><img src="' + icon.logourl + '" class="icon"></img></a>' +
+                '<div class="campuseai-Info text-center" style="width:' + calculated + 'px;overflow:hidden;text-overflow: ellipsis;">'
+                + icon.title + '</div></li>';
+            homedata.append(markup);
+        }
 
         //AK added for promptumenu
         $("#homedata").promptumenu({
-            width:300,
-            height:300,
-            rows: 4,
-            columns: 4,
+            width:(width - 24),
+            height:($(window).height() - 200),
+            rows: rows,
+            columns: cols,
             direction: 'horizontal',
             pages: true
         });
@@ -928,29 +964,110 @@ Stage = (function() {
 
 })();
 
-/*$(function() {
- var allIcons, allScreens, dock, dockIcons, icon, stage, _i, _len, _results;
- allIcons = [new Icon('Photos', 'Photo Gallery'), new Icon('Maps', 'Google Maps'), new Icon('Chuzzle', 'Chuzzle'), new Icon('Safari', 'Safari'), new Icon('Weather', 'Weather'), new Icon('nes', 'NES Emulator'), new Icon('Calendar', 'Calendar'), new Icon('Clock', 'Clock'), new Icon('BossPrefs', 'Boss Prefs'), new Icon('Chess', 'Chess'), new Icon('Mail', 'Mail'), new Icon('Phone', 'Phone'), new Icon('SMS', 'SMS Center'), new Icon('Camera', 'Camera'), new Icon('iPod', 'iPod'), new Icon('Calculator', 'Calculator'), new Icon('Music', 'Music'), new Icon('Poof', 'Poof'), new Icon('Settings', 'Settings'), new Icon('YouTube', 'Youtube'), new Icon('psx4all', 'PSx4All'), new Icon('VideoRecorder', 'Record Video'), new Icon('Installer', 'Installer'), new Icon('Notes', 'Notes'), new Icon('RagingThunder', 'RagingThunder'), new Icon('Stocks', 'Stocks'), new Icon('genesis4iphone', 'Genesis'), new Icon('snes4iphone', 'SNES Emulator'), new Icon('Calendar', 'Calendar'), new Icon('Clock', 'Clock'), new Icon('Photos', 'Photo Gallery'), new Icon('Maps', 'Google Maps')];
- dockIcons = [new DockIcon('Camera', 'Camera'), new DockIcon('iPod', 'iPod'), new DockIcon('Calculator', 'Calculator')];
- allScreens = $('#allScreens');
- allScreens.Touchable();
- stage = new Stage(allIcons);
- stage.addScreensTo(allScreens);
- stage.addIndicatorsTo('#indicators');
- allScreens.bind('touchablemove', function(e, touch) {
- if (touch.currentDelta.x < -5) {
- stage.next();
- }
- if (touch.currentDelta.x > 5) {
- return stage.previous();
- }
- });
- dock = $('#dock');
- _results = [];
- for (_i = 0, _len = dockIcons.length; _i < _len; _i++) {
- icon = dockIcons[_i];
- _results.push(dock.append(icon.markup));
- }
- return _results;
- });*/
+/** Kryptos Network Monitor **/
+(function(){
+    var onlineCallbacks = {};
+    var offlineCallbacks = {};
+    var initialized = false;
+
+    /** Public Interface **/
+    $.KNMonitor = {
+
+        isOnline : function() {
+            var networkState = navigator.connection.type;
+            if (networkState == "none" || networkState == "unknown") {
+                return false;
+            }else {
+                return true;
+            }
+         },
+
+        registerOnlineCallback : function(processor, callback) {
+            onlineCallbacks[processor] = callback;
+        },
+
+        removeOnlineCallback : function(processor) {
+            delete onlineCallbacks[processor];
+        },
+
+        registerOfflineCallback : function(processor, callback) {
+            offlineCallbacks[processor] = callback;
+        },
+
+        removeOfflineCallback : function(processor) {
+            delete offlineCallbacks[processor];
+        },
+
+        initialize : function(rootscope) {
+            if(!initialized) {
+                rootscope.$on("onOnline", function(event, data) {
+                    try {
+                        var key;
+                        for(key in onlineCallbacks ) {
+                            if(onlineCallbacks.hasOwnProperty(key)) {
+                                onlineCallbacks[key]();
+                            }
+                        }
+                    }catch(e) {
+                        //alert ("Exception while callback.." + e);
+                    }
+                });
+                rootscope.$on("onOffline", function(event, data) {
+                    try {
+                        var key;
+                        for(key in offlineCallbacks ) {
+                            if(offlineCallbacks.hasOwnProperty(key)) {
+                                offlineCallbacks[key]();
+                            }
+                        }
+                    }catch(e) {
+                        //alert ("Exception while callback.." + e);
+                    }
+                });
+                initialized = true;
+            }
+        }
+
+    };
+})();
+
+
+/** Kryptos Local Storage **/
+(function(){
+    var processors = {};
+
+    $.KStorage = {
+
+        set : function(processor, key, value) {
+            if(processors[processor]) {
+                processors[processor][key] = value;
+            }else {
+                processors[processor] = {};
+                processors[processor][key] = value;
+            }
+            $.jStorage.set(processor + "-" + key, value);
+        },
+
+        get : function(processor, key) {
+            return $.jStorage.get(processor + "-" + key);
+        },
+
+        flush : function(processor) {
+            if(processors[processor]) {
+                for(key in processors[processor]) {
+                    $.jStorage.deleteKey(processor + "-" + key);
+                }
+                delete processors[processor];
+            }
+        },
+
+        flushAll : function() {
+            for(processor in processors) {
+                flush(processor);
+            }
+        }
+    };
+})();
+
+
 MyCampusApp.init();

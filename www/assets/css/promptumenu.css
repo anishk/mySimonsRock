@@ -1,11 +1,11 @@
 .promptumenu_nav{
 	z-index: 5;
 	position: absolute;
-	bottom:5px;
+	bottom:0px;
 	left: 50%;
 	margin-right: -50%;
-    padding-bottom:20px;
-    margin-bottom:10px;
+    padding-bottom:0px;
+    margin-bottom:0px;
 }
 .promptumenu_window{
 	cursor: url(hand.ico), move;

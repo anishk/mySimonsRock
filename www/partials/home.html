@@ -100,12 +100,14 @@
         background-size:100% 100%;
         width:100%;
         padding-left:10%;
+        z-index:20000;
     }
 
     .dockicon {
         width:40px !important;
         height:40px !important;
         margin-top:-10px !important;
+        z-index:20000;
     }
     .dockicon:after {
         content:attr(title) !important;
@@ -146,7 +148,7 @@
 
     }
 </style>
-<div class="container1">
+<div class="container1 hide">
     <div class="row">
         <div style='text-align:center;'>
 
@@ -161,8 +163,8 @@
         <ul id="indicators"></ul>
 
     </section>
-    <img id="branding" src="{{brandingUrl}}" />
-    <div id="dock"></div>
+    <img id="branding1" src="{{brandingUrl}}" />
+    <div id="dock1"></div>
 
    <!-- <div class="row" id="homeContainer">-->
         <!--<div class="col-xs-4 col-sm-1 col-md-6" ng-repeat="app in apps">
@@ -193,64 +195,7 @@
     </ul>-->
 </div>
 
-<ul class="hide" id="homedata" style="width:100%;height:400px;">
-<li ng-repeat="app in apps">
-<!--    <a href="#app/{{app.name}}/{{app.name}}" class="thumbnail1">-->
-        <img id="logo-{{app.name}}" src="{{app.logo}}"  alt="..." style="width:100px;height:100px;"/>
-        <!--<div style="text-align:center;">{{app.displayname}}</div>-->
-<!--
-        </a>
--->
-    </li>
+<ul id="homedata">
+
 </ul>
 
-
-
-
-<!--
-<div style='text-align:center;'>
-    <img id="loginbranding" style='width:290px;height:70px;' src="{{brandingUrl}}" />
-</div>
--->
-<!--<div class="scrollable hide">
-    <div class="scrollable-content">
-        <div class="col-xs-4 col-md-4" ng-repeat="app in apps">
-            <a href="#app/{{app.name}}/{{app.name}}" class="thumbnail1">
-                <img style="margin-bottom:10px;background:transparent;border:none;" class="media-object thumbnail1" id="logo-{{app.name}}" src="{{app.logo}}"  alt="..."/>
-                <div style="text-align:center;text-overflow:ellipsis;overflow:hidden;height:20px;">{{app.displayname}}</div>
-            </a>
-        </div>
-
-    </div>
-</div>-->
-<script>
-   /* var allScreens = $('#allScreens');
-    allScreens.Touchable();
-    alert ("before adding touch event");
-
-    allScreens.bind('touchablemove', function(e, touch) {
-        alert ("Toch event : " + touch);
-        if (touch.currentDelta.x < -5) {
-            alert ("Next");
-        }
-        if (touch.currentDelta.x > 5) {
-            alert("Previous");
-        }
-    });
-    alert ("After adding touch event");*/
-
-</script>
-
-
-<!--
-    <div class="row visible-sm col-sm-1">
-
-
-                <div class="row container well" ng-repeat="app in apps">
-                    <a href="#app/{{app.name}}" class="col-sm-1">
-                        <img src="http://localhost:8081/comet/metaData/appLogo/{{app.id}}"  alt="..."/>
-                        <div style="text-align:center;">{{app.name}}</div>
-                    </a>
-                </div>
-            </div>
--->

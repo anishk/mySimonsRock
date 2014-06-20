@@ -24,7 +24,12 @@ to see this page in browser
   <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="assets/css/bootstrap.css" />
   <link rel="stylesheet" href="assets/css/mobile-angular-ui-base.min.css" />
+  <link rel="stylesheet" href="assets/css/mobile-angular-ui-max-width-767px.min.css" />
+  <link rel="stylesheet" href="assets/css/mobile-angular-ui-min-width-768px-and-max-width-991px.min.css" />
+  <link rel="stylesheet" href="assets/css/mobile-angular-ui-min-width-992px-and-max-width-1199px.min.css" />
+  <link rel="stylesheet" href="assets/css/mobile-angular-ui-screen-and-min-width-768px.min.css" />
   <link rel="stylesheet" href="assets/css/mobile-angular-ui-desktop.min.css" />
+
   <link rel="stylesheet" href="assets/css/apprise.min.css" rel="stylesheet" />
   <link href="assets/font-awesome/font-awesome.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/eventCalendar.css">
@@ -40,12 +45,12 @@ to see this page in browser
 
   <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
+    <script src="assets/js/jquery.js"></script>
     <script src="js/app.js"></script>
     <script src="js/services.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/directives.js"></script>
-    <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap.js"></script>
     <script src="assets/js/handlebars.js"></script>
     <script src="assets/js/jquery.xml2json.js"></script>
@@ -53,7 +58,7 @@ to see this page in browser
     <script src="assets/js/jstorage.js"></script>
     <script src="assets/js/jquery.eventCalendar.js"></script>
     <script src="assets/js/blockui.min.js"></script>
-    <script src="assets/js/jquery.promptumenu.min.js"></script>
+    <script src="assets/js/jquery.promptu-menu.js"></script>
 
     <script type="text/javascript" src="assets/js/apprise.min.js"></script>
 </head>
@@ -98,7 +103,8 @@ to see this page in browser
           </div>-->
         </div>
     </div>
-
+      <img id="branding" src="{{brandingUrl}}" />
+      <div id="dock"></div>
     <div class="navbar navbar-app navbar-absolute-bottom" style="min-height:15px;">
         <div class="navbar-inverse" style="text-align:center;font-size:10px;color:white;">Powered by KRYPTOS
         </div>
