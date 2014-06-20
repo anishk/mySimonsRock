@@ -212,6 +212,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e0e0e', end
 				<a class="list-group-item clearfix" ng-repeat="tenant in tenants | filter:searchtenant" href="#/launch/{{tenant.tenantid}}">
 					<h4>{{tenant.appname}}<span class="fa fa-chevron-right pull-right fa-2x"></span></h4>
 					<p>{{tenant.tenantname}}</p>
+					<img src="https://kryptos.kryptosmobile.com/metaData/branding/{{tenant.tenantid}}" />
 				</a>
 			</ul>
 
