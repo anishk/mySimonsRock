@@ -199,26 +199,64 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e0e0e', end
 .sidebar-toggle {
 	display:none !important;
 }
+
+/*.btn-navbar {
+  display:none !important;
+}*/
+.navbar-brand {
+ background: url("./images/navigationbg.jpg") repeat-x scroll 0 0 #000;
+}
+.app-body {
+	padding-bottom:19px !important;
+}
+.app-content {
+	background:#000;
+}
+.btn {
+	background-color: #e30074;
+    border-color: #a40154;
+    color: #ffffff;
+}
 </style>
+<div content-for="navbarAction" >
+	<div ng-click='klogout();' class="btn btn-navbar" ng-show="klogin">
+  		<i class="fa fa-power-off fa-2x"></i>
+    </div>
+</div>
 
 <div class="scrollable">
     <div class="scrollable-content">
         <div id="appContent1">
 
+			<div class="panel panel-primary" style="border:none;border-radius:5px;" ng-show="klogin">
+				<div class="panel-heading" style="background:#0e0e0e;">
+					<!--<div class="list-group-item">-->
+						<input ng-model="searchtenant" class="form-control" placeholder="Search"/>
+        			<!--</div>-->
+				</div>
+				<div class="panel-body">
+					<a class="list-group-item clearfix" ng-repeat="tenant in tenants | filter:searchtenant" href="#/launch/{{tenant.tenantid}}">
+						<h4 style="color:#000;">{{tenant.tenantname}}<span class="fa fa-chevron-circle-right pull-right fa-2x"></span></h4>
+					</a>
+				</div>
+			</div>
         	<ul class="list-group" ng-show="klogin">
         		<div class="list-group-item">
-        			<input ng-model="searchtenant" class="form-control" placeholder="Search tenant.!"/>
+        			<input ng-model="searchtenant" class="form-control" placeholder="Search"/>
         		</div>
+        		<!--<div class="list-group-item clearfix">
+				     <button class="btn btn-danger pull-right" ng-click="klogout();">Logout</button>
+        		</div>-->
 				<a class="list-group-item clearfix" ng-repeat="tenant in tenants | filter:searchtenant" href="#/launch/{{tenant.tenantid}}">
-					<h4>{{tenant.appname}}<span class="fa fa-chevron-right pull-right fa-2x"></span></h4>
-					<p>{{tenant.tenantname}}</p>
-					<img src="https://kryptos.kryptosmobile.com/metaData/branding/{{tenant.tenantid}}" />
+					<h4 style="color:#000;">{{tenant.tenantname}}<span class="fa fa-chevron-circle-right pull-right fa-2x"></span></h4>
+					<!--<p>{{tenant.appname}}</p>-->
+					<!--<img src="https://kryptos.kryptosmobile.com/metaData/branding/{{tenant.tenantid}}" />-->
 				</a>
 			</ul>
 
-			 <div class="container well" ng-show="!klogin">
+			 <div style="padding:10px;" ng-show="!klogin">
 				 <img src="./img/kryptos.png" style="text-align: center; margin: auto; width: 100%;">
-  				<div class="alert alert-info">Login using your Kryptos credentials.</div>
+  				<div style="padding:10px;color:#fff;text-align:center;">Login using your Kryptos credentials.</div>
 			        <form role="form">
 			            <div class="form-group">
 			                <div class="input-group">

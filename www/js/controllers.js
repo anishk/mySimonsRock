@@ -754,6 +754,7 @@ angular.module('myApp.controllers', []).
 			//alert ("Appmaker home ctrl called");
 			$rootScope.backgroundUrl = "./images/block.png";
 			$rootScope.brandingUrl = "./images/Banner-03.png";
+
 			$rootScope.appDisplayName = "App Maker";
 			var url = "https://kryptos.kryptosmobile.com";
 			$scope.loadApps = function(token) {
@@ -778,6 +779,12 @@ angular.module('myApp.controllers', []).
 				$rootScope.klogin = false;
 			}
 
+			$scope.klogout = function() {
+				$rootScope.klogin = false;
+				$.jStorage.deleteKey('kusername');
+				$.jStorage.deleteKey('kpassword');
+				$.jStorage.deleteKey('ktoken');
+			};
 
 			$scope.login = function() {
  				if ($("#loginUsername").val().length == 0) {
@@ -799,10 +806,11 @@ angular.module('myApp.controllers', []).
                         $.jStorage.set('kusername', username);
                         $.jStorage.set('kpassword', password);
                         $.jStorage.set('ktoken', data.token);
-
+						$.unblockUI();
 						//alert ("Login success : " + data.token);
 						$scope.loadApps(data.token);
 					}).error(function(data){
+						$.unblockUI();
 						alert ("Error in authenticate : " + data);
                 	}
                 );
@@ -852,31 +860,49 @@ angular.module('myApp.controllers', []).
 			var tenant = $routeParams.tenant;
 			//alert ("Launch control called with : " + $routeParams.tenant);
 			try {
+
+
+$rootScope.$on("onDownloadComplete", function(event, data) {
+	//alert ("Broadcast received..");
+	$.unblockUI();
+	$rootScope.$apply(function () {
+		$location.path("/home");
+	});
+});
 			MyCampusApp.config.tenant = $routeParams.tenant;
+
 			MyCampusApp.config.serverUrl = "https://kryptos.kryptosmobile.com";
-			var baseUrl = MyCampusApp.config.serverUrl;
-			$.jStorage.deleteKey(tenant + '-metadata');
-			var processLogosDir = function (logosDir) {
-				var logosDirPath = logosDir.toNativeURL();
-				MyCampusApp.checkAndUpdateMetadata(tenant, baseUrl, $http, -1, $route, $rootScope, $scope, $sce, logosDirPath, true);
-				$rootScope.$apply(function () {
-					$location.path("/home");
+			$rootScope.backgroundUrl = MyCampusApp.config.serverUrl + "/metaData/background/" + tenant;
+			$rootScope.brandingUrl = MyCampusApp.config.serverUrl + "/metaData/branding/" + tenant;
+
+			$scope.launchApp = function() {
+			var message = '<div style="margin: 2px; vertical-align: middle; display: inline-block"><i class="icon-cog icon-spin icon-4x"></i><h3 style="color:white;">Loading the App..</h3></div>';
+			$.blockUI({message : message});
+
+				var baseUrl = MyCampusApp.config.serverUrl;
+				$.jStorage.deleteKey(tenant + '-metadata');
+				var processLogosDir = function (logosDir) {
+					var logosDirPath = logosDir.toNativeURL();
+					MyCampusApp.checkAndUpdateMetadata(tenant, baseUrl, $http, -1, $route, $rootScope, $scope, $sce, logosDirPath, true);
+					$rootScope.$apply(function () {
+						setTimeout(function () {
+							//$location.path("/home");
+						},10000);
+						//$location.reload();
+					});
+					//$location.path("/home");
 					//$location.reload();
-				});
-				//$location.path("/home");
-				//$location.reload();
-				//alert ("After location reload");
-			};
+					//alert ("After location reload");
+				};
 
-			var onFileSystemSuccess = function (fileSystem) {
-				fileSystem.root.getDirectory("MyCampusMobile-" + tenant, {create: true}, processLogosDir, null);
-			};
+				var onFileSystemSuccess = function (fileSystem) {
+					fileSystem.root.getDirectory("MyCampusMobile-" + tenant, {create: true}, processLogosDir, null);
+				};
 
-			if (window.LocalFileSystem) {
-				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, null);
+				if (window.LocalFileSystem) {
+					window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, null);
+				}
 			}
-
-
 		}catch(e) {
 			alert ("Exception : " + e);
 		}

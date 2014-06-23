@@ -391,7 +391,7 @@ var MyCampusApp = {
                 }
                 MyCampusApp.refreshMetdata(data, $rootScope, $scope, $sce, tenant, url, logosDirPath, $route);
                 //$.jStorage.set(tenant + '-metadata', data);
-                $route.reload();
+                //$route.reload();
             });
     },
 
@@ -399,7 +399,7 @@ var MyCampusApp = {
 
         //window.localStorage.setItem('metadata', data);
         var message = '<div style="margin: 2px; vertical-align: middle; display: inline-block"><i class="icon-cog icon-spin icon-4x"></i><h3 style="color:white;">Initializing</h3></div>';
-        $.blockUI({message : message});
+        //$.blockUI({message : message});
         //$.blockUI();
         if(window.device) {
             data.brandingurl = logosDirPath + "/" +  "branding";
@@ -575,7 +575,7 @@ var MyCampusApp = {
             var  gotDir = function(d){
                 var message = '<div style="margin: 2px; vertical-align: middle; display: inline-block"><i class="icon-cog icon-spin icon-4x"></i><h3>Installing Updates.!</h3></div>';
                 //$.blockUI({message : message});
-                $.blockUI();
+                //$.blockUI();
 
                 console.log("got dir");
                 var DATADIR = d;
@@ -626,6 +626,7 @@ var MyCampusApp = {
                     ft = new FileTransfer();
                     ft.download(url, dlPath, function(){
                         downcounter--;
+                        //alert ("Download complete for app : " + val.id);
                         /*message = '<div style="margin: 2px; vertical-align: middle; display: inline-block"><i class="icon-cog icon-spin icon-4x"></i><h3>' + val.id + ' icon Downloaded.!</h3></div>';
                          $.blockUI({message : message});
                          setTimeout(function() {
@@ -638,11 +639,20 @@ var MyCampusApp = {
                 });
                 (function loop(){
                     setTimeout(function() {
+						//alert ("Inside loop.." + downcounter);
                         if(downcounter == 0) {
-                            $route.reload();
+                            //$route.reload();
+                            //$rootScope.broadcast("");
+                            //alert ("Inside downcounter 0.." + downcounter);
+                            try{
+                            $rootScope.$broadcast("onDownloadComplete", "Download Completed");
+                            //alert ("Broadcast called..");
                             setTimeout(function() {
                                 $.unblockUI();
                             },2000);
+						}catch(exce) {
+							alert ("Exception .." + exce);
+						}
 
                         } else {
                             loop();
